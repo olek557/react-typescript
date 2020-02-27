@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.task-list {
+
+}
+
+.task {
+  margin-bottom: 10px;
+}
+
+.task label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  transition: all .2s;
+}
+
+.task label:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.task.mod-completed span {
+  text-decoration: line-through;
+}
+
+.nav-wrapper {
+  padding: 0 10px;
+}

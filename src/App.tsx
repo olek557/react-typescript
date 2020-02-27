@@ -1,18 +1,19 @@
 import React from 'react';
-import './App.css';
-import TaskList from './components/TaskList';
 import NavBar from './components/NavBar';
-import TodoForm from './components/TodoForm';
+import {BrowserRouter, Route} from 'react-router-dom'
+import Tasks from './pages/Tasks';
+import About from './pages/About';
 
-const App: React.FunctionComponent = () => {
+const App: React.FC = () => {
+
   return (
-    <>
+    <BrowserRouter>
       <NavBar />
       <div className="container">
-        <TodoForm />
-        <TaskList />
+        <Route exact path="/" component={Tasks}/>
+        <Route path="/about" component={About}/>
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 
