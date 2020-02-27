@@ -2,14 +2,16 @@ import React, {useState} from 'react';
 import {ITask} from '../interfaces';
 
 interface TodoFormProps {
-  addTask(task: ITask):void,
+  onAddTask(task: ITask):void,
 }
 
 const TodoForm: React.FC<TodoFormProps> = (props) => {
   const [taskName, setTaskName] = useState('');
-  const handleSubmit = (event: React.KeyboardEvent) => {
+  const {onAddTask} = props;
+
+  const keyPressHandler = (event: React.KeyboardEvent) => {
     if(event.key === 'Enter') {
-      props.addTask({
+      onAddTask({
         id: '' + new Date().getTime(),
         name: taskName,
         completed: false,
@@ -17,15 +19,16 @@ const TodoForm: React.FC<TodoFormProps> = (props) => {
       setTaskName('');
     }
   }
-  const handleInputChange = (event: React.ChangeEvent) => {
+
+  const inputChangeHandler = (event: React.ChangeEvent) => {
     const value: string = (event.target as HTMLInputElement).value;
     setTaskName(value);
   }
 
   return (
     <div className="input-field">
-      <input id="new-todo" type="text" placeholder="New Todo" onKeyPress={handleSubmit} onChange={handleInputChange} value={taskName} />
-      <label htmlFor="new-todo">New Todo</label>
+      <input id="new-todo" type="text" placeholder="New Todo" onKeyPress={keyPressHandler} onChange={inputChangeHandler} value={taskName} />
+      <label htmlFor="new-todo" className="active">New Todo</label>
     </div>
   );
 }

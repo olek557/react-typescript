@@ -7,37 +7,38 @@ const Tasks: React.FC = () => {
   const [tasks, changeTasks] = useState<ITask[]>([]);
 
   useEffect(() => {
-    changeTasks(
-      JSON.parse(localStorage.getItem('_tasks') || "[]")
-    );
+    const savedTasks = JSON.parse(localStorage.getItem('_tasks') || "[]") as ITask[];
+    changeTasks(savedTasks);
   }, []);
 
   useEffect(() => {
     localStorage.setItem('_tasks', JSON.stringify(tasks))
   }, [tasks]);
 
-  const addTask = (task: ITask) => {
-    changeTasks([...tasks, task])
+  const addTaskHandler = (task: ITask) => {
+    changeTasks(prev => [task, ...prev])
   };
-  const toggleTask = (id: string) => {
-    changeTasks(tasks.map(task => {
+
+  const toggleTaskHandler = (id: string) => {
+    changeTasks(prev => prev.map(task => {
       if(task.id === id) {
         task.completed = !task.completed;
       }
       return task;
     }));
   };
-  const deleteTask = (id: string) => {
-    changeTasks(tasks.filter(task => task.id !== id));
+
+  const deleteTaskHandler = (id: string) => {
+    changeTasks(prev => prev.filter(task => task.id !== id));
   };
 
   return (
     <>
-      <TodoForm addTask={addTask} />
+      <TodoForm onAddTask={addTaskHandler} />
       <TaskList
         tasks={tasks}
-        deleteTask={deleteTask}
-        toggleTask={toggleTask}
+        onDelete={deleteTaskHandler}
+        onToggle={toggleTaskHandler}
       />
     </>
   )

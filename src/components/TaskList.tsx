@@ -3,23 +3,25 @@ import {ITask} from '../interfaces';
 
 interface TaskListProps {
   tasks: ITask[],
-  deleteTask(id: string):void,
-  toggleTask(id: string):void,
+  onDelete(id: string):void,
+  onToggle(id: string):void,
 }
 
 const TaskList: React.FC<TaskListProps> = (props) => {
-  const handleTaskDelete = (event: React.MouseEvent, id: string) => {
+  const {onDelete, tasks, onToggle} = props;
+  const taskDeleteHandler = (event: React.MouseEvent, id: string) => {
     event.preventDefault();
-    props.deleteTask(id);
+    onDelete(id);
   }
+
   return (
     <ul className="task-list">
-      {props.tasks.map(task => (
+      {tasks.map(task => (
         <li key={task.id} className={`task ${task.completed && 'mod-completed'}`}>
           <label>
-            <input type="checkbox" checked={task.completed} onChange={() => props.toggleTask(task.id)}/>
+            <input type="checkbox" checked={task.completed} onChange={() => onToggle(task.id)}/>
             <span>{task.name}</span>
-            <button className="btn btn-floating" onClick={(event) => handleTaskDelete(event, task.id)}>
+            <button className="btn btn-floating" onClick={(event) => taskDeleteHandler(event, task.id)}>
               <i className="material-icons">delete</i>
             </button>
           </label>
