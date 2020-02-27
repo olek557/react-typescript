@@ -1,10 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TaskList from '../components/TaskList';
 import TodoForm from '../components/TodoForm';
 import {ITask} from '../interfaces';
 
 const Tasks: React.FC = () => {
   const [tasks, changeTasks] = useState<ITask[]>([]);
+
+  useEffect(() => {
+    changeTasks(
+      JSON.parse(localStorage.getItem('_tasks') || "[]")
+    );
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('_tasks', JSON.stringify(tasks))
+  }, [tasks]);
+
   const addTask = (task: ITask) => {
     changeTasks([...tasks, task])
   };
